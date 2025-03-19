@@ -1,0 +1,14 @@
+{
+  "name": "djangoproject",
+  "version": "1.0.0",
+  "description": "Proyecto Django con Tailwind CSS",
+  "scripts": {
+    "build": "npx tailwindcss -i ./static/src/input.css -o ./static/css/output.css --minify",
+    "watch": "npx tailwindcss -i ./static/src/input.css -o ./static/css/output.css --watch"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^4.0.14"
+  }
+}

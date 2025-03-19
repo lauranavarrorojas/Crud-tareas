@@ -1,0 +1,110 @@
+{% extends "layouts/base.html" %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 py-12">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Card del formulario -->
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+            <!-- Header con gradiente -->
+            <div class="bg-gradient-to-r from-indigo-600 to-purple-600 px-6 py-8 md:px-8">
+                <h1 class="text-3xl font-bold text-white">Crear nueva tarea</h1>
+                <p class="mt-2 text-indigo-100">Organiza tus actividades de manera eficiente</p>
+            </div>
+
+            <!-- Contenido del formulario -->
+            <div class="p-6 md:p-8 space-y-8">
+                <form method="POST" class="space-y-6">
+                    {% csrf_token %}
+                    {% for field in form %}
+                    <div class="space-y-2 relative group">
+                        <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700 group-hover:text-indigo-600 transition-colors">
+                            {{ field.label }}
+                        </label>
+                        <div class="mt-1 relative rounded-md shadow-sm">
+                            {{ field }}
+                            {% if field.help_text %}
+                            <p class="mt-1.5 text-sm text-gray-500">{{ field.help_text }}</p>
+                            {% endif %}
+                        </div>
+                        {% if field.errors %}
+                        <div class="mt-1.5">
+                            {% for error in field.errors %}
+                            <div class="flex items-center text-red-600">
+                                <svg class="h-4 w-4 mr-1.5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                                </svg>
+                                <p class="text-sm">{{ error }}</p>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+
+                    <!-- Botones con diseño mejorado -->
+                    <div class="flex items-center justify-end space-x-4 pt-6 mt-8 border-t border-gray-200">
+                        <a href="{% url 'tasks' %}" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200">
+                            <svg class="mr-2 h-4 w-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12" />
+                            </svg>
+                            Cancelar
+                        </a>
+                        <button type="submit" class="inline-flex items-center px-6 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 shadow-lg hover:shadow-xl transition-all duration-200">
+                            <svg class="mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                            </svg>
+                            Crear Tarea
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Estilos base para todos los campos */
+    input[type="text"],
+    input[type="password"],
+    input[type="email"],
+    input[type="number"],
+    input[type="url"],
+    textarea,
+    select {
+        @apply block w-full rounded-lg border-gray-300 bg-white px-4 py-3 text-gray-700 shadow-sm transition-colors duration-200
+        focus:border-indigo-500 focus:ring-indigo-500 focus:ring-2 focus:ring-offset-0 focus:outline-none
+        hover:border-indigo-400;
+    }
+
+    /* Estilos específicos para textarea */
+    textarea {
+        @apply min-h-[120px] resize-y;
+    }
+
+    /* Estilos para checkboxes */
+    input[type="checkbox"] {
+        @apply h-5 w-5 rounded border-gray-300 text-indigo-600
+        focus:ring-indigo-500 focus:ring-offset-0 transition-all duration-200
+        hover:border-indigo-400;
+    }
+
+    /* Estilos para select */
+    select {
+        @apply pr-10 appearance-none bg-no-repeat bg-right-4;
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236B7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+        background-size: 1.5em 1.5em;
+    }
+
+    /* Animación suave al hacer focus */
+    input:focus, textarea:focus, select:focus {
+        @apply transform duration-200 ease-in-out;
+    }
+
+    /* Estilo para los campos con error */
+    .error input, .error textarea, .error select {
+        @apply border-red-500 pr-10 text-red-900 placeholder-red-300
+        focus:border-red-500 focus:ring-red-500;
+    }
+</style>
+{% endblock %}
+

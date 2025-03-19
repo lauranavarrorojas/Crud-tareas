@@ -1,0 +1,47 @@
+body {
+    background: #fdfdfd;
+    color: rgb(72, 114, 250);
+}
+
+.navbar {
+    background: #fdfdfd;
+    padding: 10px 10;
+}
+
+.navbar ul {
+    display: flex;
+    justify-content: space-between;
+}
+
+.navbar ul li {
+    list-style: none;
+}
+
+.navbar ul li a {
+    color: #55a6f1;
+    text-decoration: none;
+}
+
+.navbar ul li a:hover {
+    color: #000000;
+}
+
+.container {
+    max-width: 1200px;
+    background: #b4c2cf;
+    padding: 20px 0;
+}
+
+.card {
+    background: #fdfdfd;
+    color: #6b89c9;
+    padding: 10px;
+    margin-bottom: 2px;
+}
+
+.input {
+    background: #000000;
+    padding: 20px;
+    text-align: center;
+    display: block;
+}
