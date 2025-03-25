@@ -1,11 +1,16 @@
 {% extends 'layouts/base.html' %}
 
 {% block content %}
-
-<h1>Abouth</h1>
-<p>lorem100</p>
-
-<p>Website created by {{ username }}</p>
-
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-r from-indigo-500 to-purple-600 py-12">
+  <div class="bg-white bg-opacity-80 backdrop-blur-lg p-10 rounded-2xl shadow-xl max-w-lg w-full">
+    <h1 class="text-5xl font-bold text-gray-800 text-center mb-4">About</h1>
+    <p class="text-xl text-gray-700 text-center mb-6">Creaciones</p>
+    <p class="text-base text-gray-600 text-center">
+      Bienvenido a mi pagina by <span class="font-medium">{{ username }}</span>
+    </p>
+  </div>
+</div>
 {% endblock %}
+
+
 

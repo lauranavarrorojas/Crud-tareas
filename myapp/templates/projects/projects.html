@@ -1,21 +1,29 @@
 {% extends 'layouts/base.html' %}
 
 {% block content %}
-
-<h1>Projects</h1>
-
-{% for project in projects %}
-
-<article class="card">
-    <a href="{% url 'project_detail' project.id %}">
-    <h1>{{project.name}}</h1>
-    <button>
-        Delete
-    <button>
-        update
-    <button>
-</article>
-
-{% endfor %}
-
+<div class="min-h-screen bg-gray-50 py-12">
+  <div class="max-w-7xl mx-auto px-4">
+    <h1 class="text-3xl font-bold text-center mb-8">Projects</h1>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {% for project in projects %}
+      <article class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition duration-200">
+          <h2 class="text-xl font-semibold text-gray-800 mb-4">{{ project.name }}</h2>
+        </a>
+        <div class="flex space-x-4">
+          <!-- Si el botón de delete requiere enviar POST, lo envolvemos en un formulario -->
+            {% csrf_token %}
+            <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded transition duration-200">
+              Delete
+            </button>
+          </form>
+          <!-- Botón para update, en este ejemplo se asume que es una URL GET -->
+          </a>
+        </div>
+      </article>
+      {% empty %}
+      <p class="text-center text-gray-500 col-span-full">No hay proyectos disponibles.</p>
+      {% endfor %}
+    </div>
+  </div>
+</div>
 {% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-100 flex flex-col">
+  <!-- Cabecera con fondo degradado -->
+  <header class="bg-gradient-to-r from-indigo-700 to-blue-600 py-12">
+    <div class="container mx-auto px-4 text-center">
+      <h1 class="text-5xl font-bold text-white">Bienvenido a Mi Proyecto</h1>
+      <p class="mt-4 text-lg text-gray-200">
+        Explora nuestras funcionalidades, crea tareas y descubre contenido interesante.
+      </p>
+      <a href="{% url 'about' %}" class="mt-6 inline-block bg-white text-indigo-600 font-semibold px-6 py-3 rounded-full shadow-lg hover:bg-gray-100 transition duration-300">
+        Conoce más
+      </a>
+    </div>
+  </header>
+
+  <!-- Área principal con cards -->
+  <main class="flex-grow container mx-auto px-4 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <!-- Card: Últimas Actualizaciones -->
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <h2 class="text-2xl font-bold text-gray-800 mb-2">Últimas Actualizaciones</h2>
+        <p class="text-gray-600 mb-4">
+          Mantente informado sobre las novedades y mejoras que implementamos en la plataforma.
+        </p>
+        <a href="{% url 'updates' %}" class="inline-block bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition-colors">
+          Ver actualizaciones
+        </a>
+      </div>
+      <!-- Card: Proyectos Recientes -->
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <h2 class="text-2xl font-bold text-gray-800 mb-2">Proyectos Recientes</h2>
+        <p class="text-gray-600 mb-4">
+          Explora algunos de los proyectos más recientes que hemos implementado.
+        </p>
+        <a href="{% url 'projects' %}" class="inline-block bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition-colors">
+          Ver proyectos
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Pie de página -->
+  <footer class="bg-gray-800 py-6">
+    <div class="container mx-auto px-4 text-center text-gray-400">
+      &copy; {{ current_year }} Mi Proyecto. Todos los derechos reservados.
+    </div>
+  </footer>
+</div>
+{% endblock %}
+

@@ -1,26 +1,52 @@
 {% extends 'layouts/base.html' %}
 
 {% block content %}
-
-<h1>Tasks</h1>
-
-{% for task in tasks %}
-    <div>
-            <h1> {% if task.done == False %} 🕑 {% else %} ✅ {% endif %} 
-                {{ task.title }} </h1>
-
-        <p>{{task.description}}</p>
-        <p>Project: {{task.project.name}}</p>
-        <button>
+<div class="container mx-auto px-4 py-6">
+  <h1 class="text-3xl font-bold mb-6 text-center">Tasks</h1>
+  
+  {% for task in tasks %}
+    <div class="bg-white border border-gray-200 shadow-sm rounded-lg p-4 mb-3 flex flex-col md:flex-row items-center justify-between transition duration-300 hover:shadow-md">
+      <!-- Información de la tarea -->
+      <div class="mb-4 md:mb-0">
+        <h2 class="text-lg font-semibold flex items-center">
+          {% if not task.done %}
+            <span class="mr-2 text-yellow-500">🕑</span>
+          {% else %}
+            <span class="mr-2 text-green-500">✅</span>
+          {% endif %}
+          {{ task.title }}
+        </h2>
+        <p class="mt-1 text-gray-700 text-sm">{{ task.description }}</p>
+        <p class="mt-1 text-xs text-gray-500">Project: {{ task.project.name }}</p>
+      </div>
+      
+      <!-- Botones de acción -->
+      <div class="flex space-x-2">
+        <!-- Formulario para Borrar -->
+        <form method="POST" action="{% url 'delete_task' task.id %}">
+          {% csrf_token %}
+          <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition-colors">
             Delete
-        <button>
-         <button>
-            ✅ Done
-        <button>
+          </button>
+        </form>
+        
+        {% if not task.done %}
+          <!-- Formulario para Marcar como Hecha -->
+          <form method="POST" action="{% url 'mark_as_done' task.id %}">
+            {% csrf_token %}
+            <button type="submit" class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 transition-colors">
+              Mark as Done
+            </button>
+          </form>
+        {% else %}
+          <button class="bg-gray-400 text-white px-3 py-1 rounded cursor-not-allowed" disabled>
+            Completed
+          </button>
+        {% endif %}
+      </div>
     </div>
-{% endfor %}
-
-
-
+  {% empty %}
+    <p class="text-gray-500 text-center">No hay tareas disponibles.</p>
+  {% endfor %}
+</div>
 {% endblock %}
-
