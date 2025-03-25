@@ -1,19 +1,13 @@
-{% extends "layouts/base.html" %}
-{% load static %}
+{% extends 'layouts/base.html' %}
+
+{% block title %}Inicio{% endblock title %}
 
 {% block content %}
-<!-- Sección Hero con fondo degradado y contenido centrado -->
-<div class="min-h-screen flex items-center justify-center bg-gradient-to-r from-indigo-600 to-purple-600">
-  <div class="container mx-auto px-4 py-12 text-center">
-    <h1 class="text-5xl font-bold text-white mb-4">Bienvenido a Mi Proyecto</h1>
-    <p class="text-xl text-gray-200 mb-8">
-      Explora una experiencia innovadora y moderna en nuestra plataforma. ¡Descubre, interactúa y crece!
-    </p>
-    <img src="{% static 'images.jpg' %}" alt="Imagen destacada" class="mx-auto mb-8 rounded-full shadow-lg w-40 h-40 object-cover">
-    <a href="{% url 'about' %}" class="bg-white text-indigo-600 px-6 py-3 rounded-full text-lg font-semibold hover:bg-gray-100 transition-colors">
-      Conoce más
-    </a>
-  </div>
-</div>
-{% endblock %}
-
+  <h1 class="text-3xl font-bold mb-4">Bienvenido a mi sitio</h1>
+  <p class="mb-6">
+    Este es mi contenido minimal.
+  </p>
+  <a href="{% url 'home' %}" class="text-indigo-600 hover:underline">
+    Volver al inicio
+  </a>
+{% endblock content %}

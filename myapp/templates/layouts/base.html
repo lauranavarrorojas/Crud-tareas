@@ -5,22 +5,25 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mi Proyecto Django</title>
-  <!-- Enlace al CSS de Tailwind -->
+  <title>{% block title %}Mi Proyecto Django{% endblock %}</title>
+  
+  <!-- Enlace al CSS de Tailwind (asegúrate de que exista 'css/output.css') -->
   <link href="{% static 'css/output.css' %}" rel="stylesheet" />
 </head>
 <body class="bg-gray-50">
-  <!-- Barra de navegación -->
+  
+  <!-- Barra de navegación (Navbar) -->
   <nav class="bg-gradient-to-r from-indigo-800 to-indigo-600">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between shadow-lg border-b border-indigo-700">
       <!-- Logo / Título -->
       <div class="flex-shrink-0">
+        <!-- Ajusta la URL y la imagen del logo a tu gusto -->
         <a href="{% url 'home' %}">
           <img class="h-10 w-auto" src="{% static 'images/faviconV2.png' %}" alt="Logo">
         </a>
       </div>
-  
-      <!-- Enlaces de navegación -->
+
+      <!-- Enlaces de navegación (versión desktop) -->
       <div class="hidden md:block">
         <div class="ml-10 flex items-baseline space-x-4">
           <a href="{% url 'home' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Inicio</a>
@@ -30,7 +33,7 @@
           <a href="{% url 'tasks' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Tareas</a>
         </div>
       </div>
-  
+
       <!-- Registro / Ingreso y barra de búsqueda -->
       <div class="hidden md:flex items-center space-x-4">
         <form action="{% url 'search' %}" method="get">
@@ -41,10 +44,11 @@
       </div>
     </div>
   </nav>
-  
-  <!-- Contenedor principal con barra lateral -->
+
+  <!-- Contenedor principal con barra lateral y contenido -->
   <div class="container mx-auto px-4 py-6 flex">
-    <!-- Barra lateral -->
+    
+    <!-- Barra lateral (sidebar) -->
     <aside class="w-1/4 hidden md:block">
       <div class="bg-white shadow-lg rounded-lg p-4">
         <h2 class="text-xl font-bold mb-4">Navegación</h2>
@@ -57,11 +61,15 @@
         </ul>
       </div>
     </aside>
-    <!-- Contenido principal -->
-    <main class="flex-1">
+
+    <!-- Contenido principal (lo que cambia en cada página) -->
+    <main class="flex-1 bg-white shadow-lg rounded-lg p-4 ml-4">
       {% block content %}
-      {% endblock %}
+      <!-- Aquí va el contenido único de cada vista -->
+      {% endblock content %}
     </main>
   </div>
+
 </body>
 </html>
+

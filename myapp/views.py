@@ -6,9 +6,7 @@ from .forms import CreateNewTask,   CreateNewProject, ContactForm
 
 def index(request):
     title = 'django Course!!'
-    return render(request, 'index.html', {
-        'title': 'title'
-    })
+    return render(request, 'index.html')
 
 def about(request):
     username = 'fazt'
@@ -126,3 +124,5 @@ def login_view(request):
 def register_view(request):
     return render(request, 'register.html')
 
+def base_view(request):
+    return render(request, 'base.html')
