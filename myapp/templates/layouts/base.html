@@ -233,24 +233,21 @@
   <script>
     window.addEventListener('DOMContentLoaded', function() {
       // Forzar la visibilidad de iconos cuando la página carga
-      document.querySelectorAll('.sidebar .icon-container i, .user-avatar i').forEach(icon => {
+      document.querySelectorAll('.sidebar .icon-container i').forEach(icon => {
         icon.style.visibility = 'visible';
         icon.style.opacity = '1';
         icon.style.color = '#e2e8f0';
       });
 
-      // Asegurar que el icono de usuario sea visible
-      document.querySelector('.user-avatar i').style.color = 'white';
-
       // Verificar periódicamente que los iconos sigan visibles
       setInterval(function() {
-        document.querySelectorAll('.sidebar .icon-container i, .user-avatar i').forEach(icon => {
+        document.querySelectorAll('.sidebar .icon-container i').forEach(icon => {
           if (getComputedStyle(icon).opacity < '1' || getComputedStyle(icon).visibility !== 'visible') {
             icon.style.visibility = 'visible';
             icon.style.opacity = '1';
+            icon.style.color = '#e2e8f0';
           }
         });
-        document.querySelector('.user-avatar i').style.color = 'white';
       }, 500);
     });
   </script>
@@ -286,7 +283,7 @@
     <nav>
       <ul>
         <li>
-          <a href="{% url 'home' %}" class="menu-item">
+          <a href="{% url 'home' %}" class="menu-item {% if request.resolver_match.url_name == 'home' %}active{% endif %}">
             <div class="icon-container">
               <i class="fas fa-home"></i>
             </div>
@@ -294,7 +291,7 @@
           </a>
         </li>
         <li>
-          <a href="{% url 'tasks' %}" class="menu-item active">
+          <a href="{% url 'tasks' %}" class="menu-item {% if request.resolver_match.url_name == 'tasks' %}active{% endif %}">
             <div class="icon-container">
               <i class="fas fa-tasks"></i>
             </div>
@@ -302,7 +299,7 @@
           </a>
         </li>
         <li>
-          <a href="{% url 'create_task' %}" class="menu-item">
+          <a href="{% url 'create_task' %}" class="menu-item {% if request.resolver_match.url_name == 'create_task' %}active{% endif %}">
             <div class="icon-container">
               <i class="fas fa-plus-circle"></i>
             </div>
@@ -310,7 +307,7 @@
           </a>
         </li>
         <li>
-          <a href="{% url 'about' %}" class="menu-item">
+          <a href="{% url 'about' %}" class="menu-item {% if request.resolver_match.url_name == 'about' %}active{% endif %}">
             <div class="icon-container">
               <i class="fas fa-info-circle"></i>
             </div>
@@ -318,7 +315,7 @@
           </a>
         </li>
         <li>
-          <a href="{% url 'contact' %}" class="menu-item">
+          <a href="{% url 'contact' %}" class="menu-item {% if request.resolver_match.url_name == 'contact' %}active{% endif %}">
             <div class="icon-container">
               <i class="fas fa-envelope"></i>
             </div>
@@ -331,7 +328,7 @@
       <div class="user-container">
         <div class="user-profile">
           <div class="user-avatar">
-            <i class="fas fa-user" style="visibility: visible; opacity: 1;"></i>
+            <i class="fas fa-user"></i>
           </div>
           <div class="ml-4 text-item">
             <p class="text-sm font-medium text-gray-200">Usuario</p>
