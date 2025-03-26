@@ -55,7 +55,7 @@
                                         </div>
                                     </div>
                                     <div class="flex items-center space-x-2">
-                                        <form action="{% url 'complete_task' task.id %}" method="POST" class="inline">
+                                        <form action="{% url 'mark_as_done' task.id %}" method="POST" class="inline">
                                             {% csrf_token %}
                                             <button type="submit" class="text-sm p-2 rounded-full {% if task.done %}bg-gray-200 text-gray-500{% else %}bg-green-100 text-green-600 hover:bg-green-200{% endif %} transition-colors duration-200" {% if task.done %}disabled{% endif %}>
                                                 <i class="fas fa-check"></i>
