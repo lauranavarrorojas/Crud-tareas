@@ -283,7 +283,7 @@
     <nav>
       <ul>
         <li>
-          <a href="{% url 'home' %}" class="menu-item {% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+          <a href="{% url 'home' %}" class="menu-item">
             <div class="icon-container">
               <i class="fas fa-home"></i>
             </div>
@@ -291,7 +291,7 @@
           </a>
         </li>
         <li>
-          <a href="{% url 'tasks' %}" class="menu-item {% if request.resolver_match.url_name == 'tasks' %}active{% endif %}">
+          <a href="{% url 'tasks' %}" class="menu-item active">
             <div class="icon-container">
               <i class="fas fa-tasks"></i>
             </div>
@@ -299,7 +299,7 @@
           </a>
         </li>
         <li>
-          <a href="{% url 'create_task' %}" class="menu-item {% if request.resolver_match.url_name == 'create_task' %}active{% endif %}">
+          <a href="{% url 'create_task' %}" class="menu-item">
             <div class="icon-container">
               <i class="fas fa-plus-circle"></i>
             </div>
@@ -307,7 +307,7 @@
           </a>
         </li>
         <li>
-          <a href="{% url 'about' %}" class="menu-item {% if request.resolver_match.url_name == 'about' %}active{% endif %}">
+          <a href="{% url 'about' %}" class="menu-item">
             <div class="icon-container">
               <i class="fas fa-info-circle"></i>
             </div>
@@ -315,7 +315,7 @@
           </a>
         </li>
         <li>
-          <a href="{% url 'contact' %}" class="menu-item {% if request.resolver_match.url_name == 'contact' %}active{% endif %}">
+          <a href="{% url 'contact' %}" class="menu-item">
             <div class="icon-container">
               <i class="fas fa-envelope"></i>
             </div>
