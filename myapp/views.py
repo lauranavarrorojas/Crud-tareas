@@ -1,7 +1,10 @@
 from django.http import HttpResponse
 from .models import Project, Task
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import CreateNewTask,   CreateNewProject, ContactForm
+from .forms import CreateNewTask,   CreateNewProject, ContactForm, LoginForm, RegisterForm
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 
 def index(request):
@@ -39,7 +42,7 @@ def create_task(request):
             'form': CreateNewTask()
        })
   else:
-      
+
       Task.objects.create(title=request.POST['title'],
         description=request.POST['description'], project_id=2)
       return redirect('tasks')
@@ -52,7 +55,7 @@ def create_project(request):
     else:
         Project.objects.create(name=request.POST["name"])
         return redirect('projects')
-        
+
 def project_detail(request, id):
     project = get_object_or_404(Project, id=id)
     tasks = Task.objects.filter(project_id=id)
@@ -60,7 +63,7 @@ def project_detail(request, id):
         'project': project,
         'tasks': tasks
     })
-        
+
 
 def task_list(request):
     tasks = Task.objects.all()
@@ -97,12 +100,12 @@ def search(request):
 def delete_task(request, task_id):
     # Obtener la tarea o mostrar 404 si no existe
     task = get_object_or_404(Task, pk=task_id)
-    
+
     # Borrar la tarea
     task.delete()
-    
+
     # Redirigir a la lista de tareas (o la URL que quieras)
-    return redirect('tasks') 
+    return redirect('tasks')
 
 def mark_as_done(request, task_id):
     task = get_object_or_404(Task, pk=task_id)
@@ -119,10 +122,32 @@ def updates(request):
     return render(request, 'updates.html')
 
 def login_view(request):
-    return render(request, 'login.html')
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('home')
+            else:
+                messages.error(request, 'Usuario o contraseña incorrectos')
+    else:
+        form = LoginForm()
+    return render(request, 'usuarios/login.html', {'form': form})
 
 def register_view(request):
-    return render(request, 'register.html')
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            messages.success(request, '¡Registro exitoso!')
+            return redirect('home')
+    else:
+        form = RegisterForm()
+    return render(request, 'usuarios/register.html', {'form': form})
 
 def base_view(request):
     return render(request, 'base.html')

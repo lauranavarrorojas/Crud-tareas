@@ -6,70 +6,350 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{% block title %}Mi Proyecto Django{% endblock %}</title>
-  
-  <!-- Enlace al CSS de Tailwind (asegúrate de que exista 'css/output.css') -->
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS -->
   <link href="{% static 'css/output.css' %}" rel="stylesheet" />
+  <!-- Font Awesome para iconos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: #f9fafb;
+    }
+
+    /* Estilos de barra lateral completamente rediseñados */
+    .sidebar {
+      position: fixed;
+      top: 64px;
+      left: 0;
+      bottom: 0;
+      width: 70px;
+      background: #1e293b;
+      transition: width 0.3s ease;
+      z-index: 30;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .sidebar nav {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      padding-bottom: 70px; /* Espacio para el perfil de usuario */
+    }
+
+    .sidebar:hover {
+      width: 260px;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 15px 0;
+      margin: 0;
+    }
+
+    .sidebar li {
+      margin-bottom: 5px;
+    }
+
+    .menu-item {
+      display: flex;
+      align-items: center;
+      padding: 12px;
+      margin: 0 8px;
+      border-radius: 8px;
+      color: #e2e8f0;
+      text-decoration: none;
+      transition: background-color 0.2s;
+      position: relative;
+    }
+
+    .menu-item:hover {
+      background-color: rgba(59, 130, 246, 0.1);
+    }
+
+    .menu-item.active {
+      background-color: rgba(59, 130, 246, 0.2);
+    }
+
+    .menu-item.active::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -8px;
+      height: 100%;
+      width: 4px;
+      background: #3b82f6;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .icon-container {
+      min-width: 38px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .menu-item i {
+      font-size: 20px;
+      color: #e2e8f0;
+    }
+
+    .menu-item.active i {
+      color: #60a5fa;
+    }
+
+    .text-item {
+      white-space: nowrap;
+      transition: opacity 0.3s, transform 0.3s;
+      opacity: 0;
+      transform: translateX(10px);
+    }
+
+    .sidebar:hover .text-item {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .main-content {
+      margin-left: 70px;
+      padding-top: 64px;
+      transition: margin-left 0.3s ease;
+    }
+
+    /* Perfil de usuario */
+    .user-profile {
+      display: flex;
+      align-items: center;
+      padding: 12px;
+      margin: 0 8px;
+      border-radius: 8px;
+      background-color: rgba(59, 130, 246, 0.1);
+      transition: background-color 0.2s;
+    }
+
+    .user-profile:hover {
+      background-color: rgba(59, 130, 246, 0.2);
+    }
+
+    .user-avatar {
+      min-width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #3b82f6 0%, #4f46e5 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      transition: transform 0.2s;
+    }
+
+    .user-profile:hover .user-avatar {
+      transform: scale(1.05);
+    }
+
+    .user-avatar i {
+      color: white;
+      font-size: 16px;
+    }
+
+    /* Estilos específicos para el contenedor de usuario al final */
+    .user-container {
+      margin-top: auto;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 10px 0;
+      width: 100%;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      background-color: #1a2435; /* Fondo ligeramente más oscuro */
+      height: 60px; /* Altura fija */
+      display: flex;
+      align-items: center;
+    }
+
+    /* Cuando la barra está minimizada */
+    .sidebar:not(:hover) .user-profile {
+      justify-content: center;
+      padding: 8px;
+      margin: 0;
+      border-radius: 0;
+      background-color: transparent;
+    }
+
+    .sidebar:not(:hover) .user-avatar {
+      min-width: 42px;
+      height: 42px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Efecto de brillo en el avatar */
+    @keyframes avatar-glow {
+      0% { box-shadow: 0 0 5px rgba(79, 70, 229, 0.4); }
+      50% { box-shadow: 0 0 15px rgba(79, 70, 229, 0.6); }
+      100% { box-shadow: 0 0 5px rgba(79, 70, 229, 0.4); }
+    }
+
+    .sidebar:not(:hover) .user-avatar {
+      animation: avatar-glow 2s infinite;
+    }
+
+    /* Otros estilos generales se mantienen igual */
+    .btn-primary {
+      background-image: linear-gradient(135deg, #3b82f6 0%, #4f46e5 100%);
+      color: white;
+      border-radius: 10px;
+      padding: 0.5rem 1.25rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.2), 0 2px 4px -1px rgba(59, 130, 246, 0.1);
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 6px 10px -1px rgba(59, 130, 246, 0.3), 0 4px 6px -1px rgba(59, 130, 246, 0.2);
+      transform: translateY(-1px);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 4px -1px rgba(59, 130, 246, 0.2);
+    }
+
+    .header-shadow {
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+      backdrop-filter: blur(8px);
+      background-color: rgba(255, 255, 255, 0.9);
+    }
+  </style>
+  <!-- Script para forzar la visibilidad de los iconos -->
+  <script>
+    window.addEventListener('DOMContentLoaded', function() {
+      // Forzar la visibilidad de iconos cuando la página carga
+      document.querySelectorAll('.sidebar .icon-container i, .user-avatar i').forEach(icon => {
+        icon.style.visibility = 'visible';
+        icon.style.opacity = '1';
+        icon.style.color = '#e2e8f0';
+      });
+
+      // Asegurar que el icono de usuario sea visible
+      document.querySelector('.user-avatar i').style.color = 'white';
+
+      // Verificar periódicamente que los iconos sigan visibles
+      setInterval(function() {
+        document.querySelectorAll('.sidebar .icon-container i, .user-avatar i').forEach(icon => {
+          if (getComputedStyle(icon).opacity < '1' || getComputedStyle(icon).visibility !== 'visible') {
+            icon.style.visibility = 'visible';
+            icon.style.opacity = '1';
+          }
+        });
+        document.querySelector('.user-avatar i').style.color = 'white';
+      }, 500);
+    });
+  </script>
 </head>
-<body class="bg-gray-50">
-  
-  <!-- Barra de navegación (Navbar) -->
-  <nav class="bg-gradient-to-r from-indigo-800 to-indigo-600">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between shadow-lg border-b border-indigo-700">
-      <!-- Logo / Título -->
-      <div class="flex-shrink-0">
-        <!-- Ajusta la URL y la imagen del logo a tu gusto -->
-        <a href="{% url 'home' %}">
+<body>
+  <!-- Header -->
+  <header class="fixed w-full top-0 bg-white header-shadow z-40">
+    <div class="flex justify-between items-center h-16 px-6">
+      <!-- Logo -->
+      <div class="flex items-center">
+        <a href="{% url 'home' %}" class="flex items-center gap-2">
           <img class="h-10 w-auto" src="{% static 'images/faviconV2.png' %}" alt="Logo">
+          <span class="text-xl font-semibold text-slate-800">YuCart</span>
         </a>
       </div>
 
-      <!-- Enlaces de navegación (versión desktop) -->
-      <div class="hidden md:block">
-        <div class="ml-10 flex items-baseline space-x-4">
-          <a href="{% url 'home' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Inicio</a>
-          <a href="{% url 'about' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Acerca</a>
-          <a href="{% url 'contact' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Contacto</a>
-          <a href="{% url 'create_task' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Crear Tarea</a>
-          <a href="{% url 'tasks' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Tareas</a>
-        </div>
-      </div>
-
-      <!-- Registro / Ingreso y barra de búsqueda -->
-      <div class="hidden md:flex items-center space-x-4">
-        <form action="{% url 'search' %}" method="get">
-          <input type="text" name="q" placeholder="Buscar..." class="bg-white text-gray-800 px-3 py-2 rounded-md text-sm focus:outline-none">
-        </form>
-        <a href="{% url 'login' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Ingresar</a>
-        <a href="{% url 'register' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Registrar</a>
+      <!-- Autenticación -->
+      <div class="flex items-center gap-5">
+        <a href="{% url 'login' %}" class="flex items-center px-4 py-2 text-sm font-medium text-slate-700 hover:text-blue-600 transition-colors">
+          <i class="fas fa-sign-in-alt mr-2"></i>
+          Ingresar
+        </a>
+        <a href="{% url 'register' %}" class="btn-primary flex items-center px-4 py-2.5 text-sm font-medium">
+          <i class="fas fa-user-plus mr-2"></i>
+          Registro
+        </a>
       </div>
     </div>
-  </nav>
+  </header>
 
-  <!-- Contenedor principal con barra lateral y contenido -->
-  <div class="container mx-auto px-4 py-6 flex">
-    
-    <!-- Barra lateral (sidebar) -->
-    <aside class="w-1/4 hidden md:block">
-      <div class="bg-white shadow-lg rounded-lg p-4">
-        <h2 class="text-xl font-bold mb-4">Navegación</h2>
-        <ul class="space-y-2">
-          <li><a href="{% url 'home' %}" class="block text-gray-700 hover:text-indigo-600">Inicio</a></li>
-          <li><a href="{% url 'about' %}" class="block text-gray-700 hover:text-indigo-600">Acerca</a></li>
-          <li><a href="{% url 'contact' %}" class="block text-gray-700 hover:text-indigo-600">Contacto</a></li>
-          <li><a href="{% url 'create_task' %}" class="block text-gray-700 hover:text-indigo-600">Crear Tarea</a></li>
-          <li><a href="{% url 'tasks' %}" class="block text-gray-700 hover:text-indigo-600">Tareas</a></li>
-        </ul>
+  <!-- Sidebar con estructura simplificada -->
+  <aside class="sidebar">
+    <nav>
+      <ul>
+        <li>
+          <a href="{% url 'home' %}" class="menu-item">
+            <div class="icon-container">
+              <i class="fas fa-home"></i>
+            </div>
+            <span class="text-item ml-4">Inicio</span>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'tasks' %}" class="menu-item active">
+            <div class="icon-container">
+              <i class="fas fa-tasks"></i>
+            </div>
+            <span class="text-item ml-4">Mis Tareas</span>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'create_task' %}" class="menu-item">
+            <div class="icon-container">
+              <i class="fas fa-plus-circle"></i>
+            </div>
+            <span class="text-item ml-4">Nueva Tarea</span>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'about' %}" class="menu-item">
+            <div class="icon-container">
+              <i class="fas fa-info-circle"></i>
+            </div>
+            <span class="text-item ml-4">Acerca</span>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'contact' %}" class="menu-item">
+            <div class="icon-container">
+              <i class="fas fa-envelope"></i>
+            </div>
+            <span class="text-item ml-4">Contacto</span>
+          </a>
+        </li>
+      </ul>
+
+      <!-- Usuario -->
+      <div class="user-container">
+        <div class="user-profile">
+          <div class="user-avatar">
+            <i class="fas fa-user" style="visibility: visible; opacity: 1;"></i>
+          </div>
+          <div class="ml-4 text-item">
+            <p class="text-sm font-medium text-gray-200">Usuario</p>
+            <p class="text-xs text-gray-400">usuario@ejemplo.com</p>
+          </div>
+        </div>
       </div>
-    </aside>
+    </nav>
+  </aside>
 
-    <!-- Contenido principal (lo que cambia en cada página) -->
-    <main class="flex-1 bg-white shadow-lg rounded-lg p-4 ml-4">
+  <!-- Contenido principal -->
+  <main class="main-content min-h-screen">
+    <div class="p-6">
       {% block content %}
-      <!-- Aquí va el contenido único de cada vista -->
+      <!-- Contenido de la página -->
       {% endblock content %}
-    </main>
-  </div>
-
+    </div>
+  </main>
 </body>
 </html>
 

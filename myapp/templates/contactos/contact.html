@@ -1,53 +1,126 @@
 {% extends 'layouts/base.html' %}
 
+{% block title %}Contacto{% endblock %}
+
 {% block content %}
-<div class="min-h-screen flex items-center justify-center bg-gray-50 py-12">
-  <!-- Contenedor de la tarjeta del formulario -->
-  <div class="bg-white p-8 rounded-xl shadow-md w-full max-w-md">
-    <!-- Título del formulario con color personalizado -->
-    <h1 class="text-2xl font-bold mb-6 text-center text-indigo-600">Contáctanos</h1>
-    
-    <!-- Mensaje de confirmación con fondo y texto en verde -->
-    {% if message %}
-      <div class="mb-4 p-4 bg-green-100 text-green-700 rounded">
-        {{ message }}
-      </div>
-    {% endif %}
-    
-    <!-- Formulario de contacto -->
-    <form method="POST">
-      {% csrf_token %}
-      <div class="mb-4">
-        <label for="nombre" class="block text-gray-700 text-sm font-medium">Nombre</label>
-        <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" 
-               class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-      </div>
-      <div class="mb-4">
-        <label for="email" class="block text-gray-700 text-sm font-medium">Email</label>
-        <input type="email" id="email" name="email" placeholder="tuemail@ejemplo.com" 
-               class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-      </div>
-      <div class="mb-4">
-        <label for="mensaje" class="block text-gray-700 text-sm font-medium">Mensaje</label>
-        <textarea id="mensaje" name="mensaje" rows="4" placeholder="Escribe tu mensaje aquí" 
-                  class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"></textarea>
-      </div>
+<div class="max-w-md mx-auto mt-10 px-4 sm:px-0">
+    <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+        <!-- Cabecera con imagen de fondo -->
+        <div class="relative bg-gradient-to-r from-violet-600 to-purple-600 py-10 px-8">
+            <div class="absolute inset-0 opacity-10">
+                <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+                    <defs>
+                        <pattern id="pattern" width="40" height="40" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                            <rect width="100%" height="100%" fill="none"/>
+                            <circle cx="20" cy="20" r="1.5" fill="#fff" />
+                        </pattern>
+                    </defs>
+                    <rect width="100%" height="100%" fill="url(#pattern)" />
+                </svg>
+            </div>
+            <div class="text-center relative">
+                <h2 class="text-3xl font-bold text-white tracking-tight">
+                    Contáctanos
+                </h2>
+                <p class="mt-2 text-blue-100">
+                    Envíanos un mensaje y te responderemos pronto
+                </p>
+            </div>
+        </div>
 
-     <!-- Botones con diseño mejorado -->
-<div class="flex items-center justify-end space-x-4 pt-6 mt-8 border-t border-gray-200">
-    <a href="{% url 'tasks' %}" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200">
-        <svg class="mr-2 h-4 w-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12" />
-        </svg>
-        Cancelar
-    </a>
-    <button type="submit" class="inline-flex items-center px-6 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 shadow-lg hover:shadow-xl transition-all duration-200">
-        <svg class="mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-        </svg>
-        Enviar
-    </button>
+        <div class="p-8">
+            <!-- Mensaje de confirmación -->
+            {% if message %}
+            <div class="mb-6 p-4 rounded-lg bg-green-50 border-l-4 border-green-500 shadow-sm">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-check-circle text-green-500"></i>
+                    </div>
+                    <div class="ml-3">
+                        <p class="text-sm text-green-700">
+                            {{ message }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <form method="POST" class="space-y-5">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="nombre" class="flex items-center gap-1.5 text-sm font-medium text-gray-700 mb-2">
+                        <div class="form-icon">
+                            <i class="fas fa-user text-violet-500 text-xs"></i>
+                        </div>
+                        <span>Nombre</span>
+                    </label>
+                    <div class="relative group">
+                        <div class="w-full">
+                            <input type="text" id="nombre" name="nombre" placeholder="Tu nombre"
+                               class="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-violet-500 focus:border-violet-500 transition duration-200">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email" class="flex items-center gap-1.5 text-sm font-medium text-gray-700 mb-2">
+                        <div class="form-icon">
+                            <i class="fas fa-envelope text-violet-500 text-xs"></i>
+                        </div>
+                        <span>Email</span>
+                    </label>
+                    <div class="relative group">
+                        <div class="w-full">
+                            <input type="email" id="email" name="email" placeholder="tuemail@ejemplo.com"
+                               class="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-violet-500 focus:border-violet-500 transition duration-200">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="mensaje" class="flex items-center gap-1.5 text-sm font-medium text-gray-700 mb-2">
+                        <div class="form-icon">
+                            <i class="fas fa-comment-alt text-violet-500 text-xs"></i>
+                        </div>
+                        <span>Mensaje</span>
+                    </label>
+                    <div class="relative group">
+                        <div class="w-full">
+                            <textarea id="mensaje" name="mensaje" rows="4" placeholder="Escribe tu mensaje aquí"
+                                  class="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-violet-500 focus:border-violet-500 transition duration-200"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6">
+                    <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-md text-sm font-medium text-white bg-violet-600 hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500 transition-all duration-200 transform hover:-translate-y-1">
+                        <i class="fas fa-paper-plane mr-2"></i>
+                        Enviar Mensaje
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="px-8 py-5 bg-gray-50 border-t border-gray-200 text-center">
+            <p class="text-sm text-gray-600">
+                También puedes contactarnos por teléfono al
+                <span class="font-medium text-violet-600">+123 456 7890</span>
+            </p>
+        </div>
+    </div>
+
+    <style>
+        .form-icon {
+            width: 1.25rem;
+            height: 1.25rem;
+            min-width: 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.25rem;
+            background-color: rgba(139, 92, 246, 0.1);
+        }
+    </style>
 </div>
-
 {% endblock %}
 

@@ -1,111 +1,201 @@
-{% extends "layouts/base.html" %}
-{% load static %}
+{% extends 'layouts/base.html' %}
+
+{% block title %}Nueva Tarea{% endblock %}
 
 {% block content %}
-<div class="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 py-12">
-    <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-        <!-- Card del formulario -->
-        <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
-            <!-- Header con gradiente -->
-            <div class="bg-gradient-to-r from-indigo-600 to-purple-600 px-6 py-8 md:px-8">
-                <h1 class="text-3xl font-bold text-white">Crear nueva tarea</h1>
-                <p class="mt-2 text-indigo-100">Organiza tus actividades de manera eficiente</p>
+<div class="max-w-2xl mx-auto mt-10 px-4 sm:px-6 lg:px-8">
+    <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+        <!-- Cabecera con imagen de fondo -->
+        <div class="relative bg-gradient-to-r from-violet-600 to-purple-600 py-10 px-8">
+            <div class="absolute inset-0 opacity-10">
+                <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+                    <defs>
+                        <pattern id="pattern" width="40" height="40" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                            <rect width="100%" height="100%" fill="none"/>
+                            <circle cx="20" cy="20" r="1.5" fill="#fff" />
+                        </pattern>
+                    </defs>
+                    <rect width="100%" height="100%" fill="url(#pattern)" />
+                </svg>
             </div>
-
-            <!-- Contenido del formulario -->
-            <div class="p-6 md:p-8 space-y-8">
-                <form method="POST" class="space-y-6">
-                    {% csrf_token %}
-                    {% for field in form %}
-                    <div class="space-y-2 relative group">
-                        <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700 group-hover:text-indigo-600 transition-colors">
-                            {{ field.label }}
-                        </label>
-                        <div class="mt-1 relative rounded-md shadow-sm">
-                            {{ field }}
-                            {% if field.help_text %}
-                            <p class="mt-1.5 text-sm text-gray-500">{{ field.help_text }}</p>
-                            {% endif %}
-                        </div>
-                        {% if field.errors %}
-                        <div class="mt-1.5">
-                            {% for error in field.errors %}
-                            <div class="flex items-center text-red-600">
-                                <svg class="h-4 w-4 mr-1.5" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
-                                </svg>
-                                <p class="text-sm">{{ error }}</p>
-                            </div>
-                            {% endfor %}
-                        </div>
-                        {% endif %}
-                    </div>
-                    {% endfor %}
-
-                    <!-- Botones con diseño mejorado -->
-                    <div class="flex items-center justify-end space-x-4 pt-6 mt-8 border-t border-gray-200">
-                        <a href="{% url 'tasks' %}" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200">
-                            <svg class="mr-2 h-4 w-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12" />
-                            </svg>
-                            Cancelar
-                        </a>
-                        <button type="submit" class="inline-flex items-center px-6 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 shadow-lg hover:shadow-xl transition-all duration-200">
-                            <svg class="mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                            </svg>
-                            Crear Tarea
-                        </button>
-                    </div>
-                </form>
+            <div class="text-center relative">
+                <h2 class="text-3xl font-bold text-white tracking-tight">
+                    {% if object %}Editar Tarea{% else %}Nueva Tarea{% endif %}
+                </h2>
+                <p class="mt-2 text-blue-100">
+                    {% if object %}Actualiza los datos de tu tarea{% else %}Agrega una nueva tarea a tu lista{% endif %}
+                </p>
             </div>
         </div>
+
+        <div class="p-8">
+            <form method="POST" class="space-y-5">
+                {% csrf_token %}
+
+                <!-- Título -->
+                <div class="form-group">
+                    <label for="{{ form.title.id_for_label }}" class="flex items-center gap-1.5 text-sm font-medium text-gray-700 mb-2">
+                        <div class="form-icon">
+                            <i class="fas fa-heading text-violet-500 text-xs"></i>
+                        </div>
+                        <span>Título</span>
+                    </label>
+                    <div class="relative group">
+                        <div class="w-full">
+                            {{ form.title }}
+                        </div>
+                        {% if form.title.errors %}
+                            <div class="mt-1 text-red-500 text-sm">
+                                {{ form.title.errors }}
+                            </div>
+                        {% endif %}
+                        {% if form.title.help_text %}
+                            <div class="mt-1 text-xs text-gray-500">
+                                {{ form.title.help_text }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Descripción -->
+                <div class="form-group">
+                    <label for="{{ form.description.id_for_label }}" class="flex items-center gap-1.5 text-sm font-medium text-gray-700 mb-2">
+                        <div class="form-icon">
+                            <i class="fas fa-align-left text-violet-500 text-xs"></i>
+                        </div>
+                        <span>Descripción</span>
+                    </label>
+                    <div class="relative group">
+                        <div class="w-full">
+                            {{ form.description }}
+                        </div>
+                        {% if form.description.errors %}
+                            <div class="mt-1 text-red-500 text-sm">
+                                {{ form.description.errors }}
+                            </div>
+                        {% endif %}
+                        {% if form.description.help_text %}
+                            <div class="mt-1 text-xs text-gray-500">
+                                {{ form.description.help_text }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Proyecto -->
+                <div class="form-group">
+                    <label for="{{ form.project.id_for_label }}" class="flex items-center gap-1.5 text-sm font-medium text-gray-700 mb-2">
+                        <div class="form-icon">
+                            <i class="fas fa-project-diagram text-violet-500 text-xs"></i>
+                        </div>
+                        <span>Proyecto</span>
+                    </label>
+                    <div class="relative group">
+                        <div class="w-full">
+                            {{ form.project }}
+                        </div>
+                        {% if form.project.errors %}
+                            <div class="mt-1 text-red-500 text-sm">
+                                {{ form.project.errors }}
+                            </div>
+                        {% endif %}
+                        {% if form.project.help_text %}
+                            <div class="mt-1 text-xs text-gray-500">
+                                {{ form.project.help_text }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Importante -->
+                <div class="form-group">
+                    <div class="flex items-center">
+                        {{ form.importante }}
+                        <label for="{{ form.importante.id_for_label }}" class="ml-2 flex items-center gap-1.5 text-sm font-medium text-gray-700">
+                            <div class="form-icon">
+                                <i class="fas fa-star text-violet-500 text-xs"></i>
+                            </div>
+                            <span>Marcar como Importante</span>
+                        </label>
+                    </div>
+                    {% if form.importante.errors %}
+                        <div class="mt-1 text-red-500 text-sm">
+                            {{ form.importante.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Fecha -->
+                <div class="form-group mt-6">
+                    <div class="flex items-center justify-end space-x-4">
+                        <a href="{% url 'tasks' %}" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500 transition-all duration-200">
+                            <i class="fas fa-times mr-2"></i>
+                            Cancelar
+                        </a>
+                        <button type="submit" class="inline-flex items-center px-6 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-violet-600 hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500 shadow-md hover:shadow-lg transition-all duration-200 transform hover:-translate-y-1">
+                            <i class="fas fa-save mr-2"></i>
+                            Guardar
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
+
+    <style>
+        .form-icon {
+            width: 1.25rem;
+            height: 1.25rem;
+            min-width: 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.25rem;
+            background-color: rgba(139, 92, 246, 0.1);
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="email"],
+        textarea,
+        select {
+            display: block;
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            font-size: 0.875rem;
+            line-height: 1.25rem;
+            color: #111827;
+            background-color: #ffffff;
+            transition: all 0.2s;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus,
+        input[type="email"]:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            ring-width: 2px;
+            ring-color: rgba(139, 92, 246, 0.5);
+            border-color: rgba(139, 92, 246, 1);
+        }
+
+        input[type="checkbox"] {
+            width: 1rem;
+            height: 1rem;
+            color: rgba(139, 92, 246, 1);
+            border-radius: 0.25rem;
+            border: 1px solid #d1d5db;
+        }
+
+        input[type="checkbox"]:checked {
+            background-color: rgba(139, 92, 246, 1);
+            border-color: rgba(139, 92, 246, 1);
+        }
+    </style>
 </div>
-
-<style>
-    /* Estilos base para todos los campos */
-    input[type="text"],
-    input[type="password"],
-    input[type="email"],
-    input[type="number"],
-    input[type="url"],
-    textarea,
-    select {
-        @apply block w-full rounded-lg border-gray-300 bg-white px-4 py-3 text-gray-700 shadow-sm transition-colors duration-200
-        focus:border-indigo-500 focus:ring-indigo-500 focus:ring-2 focus:ring-offset-0 focus:outline-none
-        hover:border-indigo-400;
-    }
-
-    /* Estilos específicos para textarea */
-    textarea {
-        @apply min-h-[120px] resize-y;
-    }
-
-    /* Estilos para checkboxes */
-    input[type="checkbox"] {
-        @apply h-5 w-5 rounded border-gray-300 text-indigo-600
-        focus:ring-indigo-500 focus:ring-offset-0 transition-all duration-200
-        hover:border-indigo-400;
-    }
-
-    /* Estilos para select */
-    select {
-        @apply pr-10 appearance-none bg-no-repeat bg-right-4;
-        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236B7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
-        background-size: 1.5em 1.5em;
-    }
-
-    /* Animación suave al hacer focus */
-    input:focus, textarea:focus, select:focus {
-        @apply transform duration-200 ease-in-out;
-    }
-
-    /* Estilo para los campos con error */
-    .error input, .error textarea, .error select {
-        @apply border-red-500 pr-10 text-red-900 placeholder-red-300
-        focus:border-red-500 focus:ring-red-500;
-    }
-</style>
 {% endblock %}
 

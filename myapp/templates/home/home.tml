@@ -1,50 +1,103 @@
 {% extends 'layouts/base.html' %}
 
+{% block title %}Inicio{% endblock %}
+
 {% block content %}
-<div class="min-h-screen bg-gray-100 flex flex-col">
+<div class="min-h-screen flex flex-col bg-gray-50">
   <!-- Cabecera con fondo degradado -->
-  <header class="bg-gradient-to-r from-indigo-700 to-blue-600 py-12">
-    <div class="container mx-auto px-4 text-center">
+  <header class="relative py-20 bg-gradient-to-r from-violet-600 to-purple-600">
+    <div class="absolute inset-0 opacity-10">
+      <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+        <defs>
+          <pattern id="pattern" width="40" height="40" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+            <rect width="100%" height="100%" fill="none"/>
+            <circle cx="20" cy="20" r="1.5" fill="#fff" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#pattern)" />
+      </svg>
+    </div>
+    <div class="container mx-auto px-4 text-center relative z-10">
       <h1 class="text-5xl font-bold text-white">Bienvenido a Mi Proyecto</h1>
-      <p class="mt-4 text-lg text-gray-200">
+      <p class="mt-4 text-xl text-blue-100">
         Explora nuestras funcionalidades, crea tareas y descubre contenido interesante.
       </p>
-      <a href="{% url 'about' %}" class="mt-6 inline-block bg-white text-indigo-600 font-semibold px-6 py-3 rounded-full shadow-lg hover:bg-gray-100 transition duration-300">
-        Conoce más
-      </a>
+      <div class="mt-8">
+        <a href="{% url 'about' %}" class="px-8 py-3 bg-white text-violet-600 font-medium rounded-lg shadow-md hover:bg-violet-50 transition-all duration-200 transform hover:-translate-y-1">
+          <i class="fas fa-info-circle mr-2"></i>
+          Conoce más
+        </a>
+      </div>
     </div>
   </header>
 
   <!-- Área principal con cards -->
-  <main class="flex-grow container mx-auto px-4 py-12">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+  <main class="flex-grow container mx-auto px-4 py-16">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
       <!-- Card: Últimas Actualizaciones -->
-      <div class="bg-white rounded-lg shadow-md p-6">
-        <h2 class="text-2xl font-bold text-gray-800 mb-2">Últimas Actualizaciones</h2>
-        <p class="text-gray-600 mb-4">
-          Mantente informado sobre las novedades y mejoras que implementamos en la plataforma.
-        </p>
-        <a href="{% url 'updates' %}" class="inline-block bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition-colors">
-          Ver actualizaciones
-        </a>
+      <div class="bg-white rounded-2xl shadow-xl overflow-hidden transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
+        <div class="h-3 bg-green-500"></div>
+        <div class="p-8">
+          <div class="w-14 h-14 mb-4 rounded-full bg-green-100 flex items-center justify-center text-green-500">
+            <i class="fas fa-bell text-xl"></i>
+          </div>
+          <h2 class="text-2xl font-bold text-gray-800 mb-3">Últimas Actualizaciones</h2>
+          <p class="text-gray-600 mb-6">
+            Mantente informado sobre las novedades y mejoras que implementamos en la plataforma.
+          </p>
+          <a href="{% url 'updates' %}" class="inline-flex items-center text-green-600 font-medium hover:text-green-700 transition-colors">
+            Ver actualizaciones
+            <i class="fas fa-arrow-right ml-2"></i>
+          </a>
+        </div>
       </div>
+
       <!-- Card: Proyectos Recientes -->
-      <div class="bg-white rounded-lg shadow-md p-6">
-        <h2 class="text-2xl font-bold text-gray-800 mb-2">Proyectos Recientes</h2>
-        <p class="text-gray-600 mb-4">
-          Explora algunos de los proyectos más recientes que hemos implementado.
-        </p>
-        <a href="{% url 'projects' %}" class="inline-block bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition-colors">
-          Ver proyectos
-        </a>
+      <div class="bg-white rounded-2xl shadow-xl overflow-hidden transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
+        <div class="h-3 bg-violet-500"></div>
+        <div class="p-8">
+          <div class="w-14 h-14 mb-4 rounded-full bg-violet-100 flex items-center justify-center text-violet-500">
+            <i class="fas fa-project-diagram text-xl"></i>
+          </div>
+          <h2 class="text-2xl font-bold text-gray-800 mb-3">Proyectos Recientes</h2>
+          <p class="text-gray-600 mb-6">
+            Explora algunos de los proyectos más recientes que hemos implementado.
+          </p>
+          <a href="{% url 'projects' %}" class="inline-flex items-center text-violet-600 font-medium hover:text-violet-700 transition-colors">
+            Ver proyectos
+            <i class="fas fa-arrow-right ml-2"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Card: Tareas -->
+      <div class="bg-white rounded-2xl shadow-xl overflow-hidden transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
+        <div class="h-3 bg-blue-500"></div>
+        <div class="p-8">
+          <div class="w-14 h-14 mb-4 rounded-full bg-blue-100 flex items-center justify-center text-blue-500">
+            <i class="fas fa-tasks text-xl"></i>
+          </div>
+          <h2 class="text-2xl font-bold text-gray-800 mb-3">Gestión de Tareas</h2>
+          <p class="text-gray-600 mb-6">
+            Organiza y gestiona tus tareas de forma eficiente con nuestro sistema.
+          </p>
+          <a href="{% url 'tasks' %}" class="inline-flex items-center text-blue-600 font-medium hover:text-blue-700 transition-colors">
+            Ver tareas
+            <i class="fas fa-arrow-right ml-2"></i>
+          </a>
+        </div>
       </div>
     </div>
   </main>
 
   <!-- Pie de página -->
-  <footer class="bg-gray-800 py-6">
+  <footer class="bg-gray-800 py-8">
     <div class="container mx-auto px-4 text-center text-gray-400">
-      &copy; {{ current_year }} Mi Proyecto. Todos los derechos reservados.
+      <p class="mb-2">
+        <i class="fas fa-code text-violet-400 mr-2"></i>
+        <span class="text-white font-medium">Mi Proyecto</span>
+      </p>
+      <p>&copy; {{ current_year }} Todos los derechos reservados.</p>
     </div>
   </footer>
 </div>
