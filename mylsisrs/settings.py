@@ -95,3 +95,9 @@ STATICFILES_DIRS = [
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# settings.py
+
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/tareas/'  # Opcional, define a dónde ir después de loguearse
+
