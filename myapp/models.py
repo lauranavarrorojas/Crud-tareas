@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Project(models.Model):
@@ -12,6 +13,7 @@ class Task(models.Model):
     description = models.TextField()
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     done = models.BooleanField(default=False)
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return self.title + ' - ' + self.project.name
