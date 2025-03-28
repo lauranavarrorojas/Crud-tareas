@@ -24,6 +24,102 @@
       background-color: #f9fafb;
     }
 
+    /* SOLUCIÓN GLOBAL DE VISUALIZACIÓN */
+    /* Esta sección corrige todos los problemas visuales en la aplicación */
+
+    /* Solución global para los iconos */
+    .fas, .far, .fab {
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      vertical-align: middle !important;
+      width: 1em !important;
+      height: 1em !important;
+      font-size: inherit !important;
+    }
+
+    /* Solución global para etiquetas y botones */
+    [class*="bg-gradient-to-r"],
+    [class*="bg-gradient-to-br"],
+    [class*="bg-white bg-opacity"],
+    [class*="hover:bg-opacity"],
+    .btn-primary,
+    a[class*="btn"],
+    button[type="submit"],
+    [class*="rounded-full"] {
+      position: relative !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+
+    /* Asegurar que los textos dentro de botones y etiquetas sean visibles */
+    [class*="bg-gradient-to-r"] *,
+    [class*="bg-gradient-to-br"] *,
+    [class*="bg-white bg-opacity"] *,
+    .text-white,
+    .text-white * {
+      color: white !important;
+    }
+
+    /* Asegurar colores para cabeceras */
+    .from-teal-500.to-blue-600 h2,
+    .from-teal-500.to-blue-600 p,
+    .from-blue-500.to-violet-600 h2,
+    .from-blue-500.to-violet-600 p,
+    .from-indigo-500.to-violet-600 h2,
+    .from-indigo-500.to-violet-600 p,
+    [class*="from-"][class*="to-"] h2,
+    [class*="from-"][class*="to-"] p {
+      color: white !important;
+    }
+
+    /* Garantizar contraste para badges de estado */
+    .bg-amber-100, .text-amber-800, .text-amber-800 * {
+      background-color: #fef3c7 !important;
+      color: #92400e !important;
+    }
+
+    .bg-green-100, .text-green-800, .text-green-800 * {
+      background-color: #d1fae5 !important;
+      color: #065f46 !important;
+    }
+
+    .bg-blue-100, .text-blue-800, .text-blue-800 * {
+      background-color: #dbeafe !important;
+      color: #1e40af !important;
+    }
+
+    .bg-red-100, .text-red-800, .text-red-800 * {
+      background-color: #fee2e2 !important;
+      color: #991b1b !important;
+    }
+
+    .bg-indigo-50, .text-indigo-700, .text-indigo-700 * {
+      background-color: #eef2ff !important;
+      color: #4338ca !important;
+    }
+
+    .bg-teal-50, .text-teal-700, .text-teal-700 * {
+      background-color: #f0fdfa !important;
+      color: #0f766e !important;
+    }
+
+    /* Asegurarse que los botones de acciones sean consistentes */
+    a[href], a[href] i {
+      text-decoration: none !important;
+      display: inline-flex !important;
+      align-items: center !important;
+    }
+
+    /* Forzar colores específicos para resolver problemas generales */
+    .text-indigo-500 { color: #6366f1 !important; }
+    .text-blue-500 { color: #3b82f6 !important; }
+    .text-teal-500 { color: #14b8a6 !important; }
+    .text-red-500 { color: #ef4444 !important; }
+
+    /* FIN DE SOLUCIÓN GLOBAL */
+
     /* Estilos de barra lateral completamente rediseñados */
     .sidebar {
       position: fixed;
@@ -35,6 +131,7 @@
       transition: width 0.3s ease;
       z-index: 30;
       box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
     }
 
     .sidebar nav {
@@ -53,10 +150,12 @@
       list-style: none;
       padding: 15px 0;
       margin: 0;
+      width: 260px; /* Ancho fijo para el contenido */
     }
 
     .sidebar li {
       margin-bottom: 5px;
+      width: 100%;
     }
 
     .menu-item {
@@ -69,6 +168,7 @@
       text-decoration: none;
       transition: background-color 0.2s;
       position: relative;
+      width: calc(100% - 16px); /* Ajuste para el margen */
     }
 
     .menu-item:hover {
@@ -112,11 +212,14 @@
       transition: opacity 0.3s, transform 0.3s;
       opacity: 0;
       transform: translateX(10px);
+      width: 0;
+      overflow: hidden;
     }
 
     .sidebar:hover .text-item {
       opacity: 1;
       transform: translateX(0);
+      width: auto;
     }
 
     .main-content {
@@ -228,6 +331,94 @@
       backdrop-filter: blur(8px);
       background-color: rgba(255, 255, 255, 0.9);
     }
+
+    /* Estilos globales para botones e iconos */
+    .fas, .fab, .far {
+      display: inline-flex !important;
+      align-items: center;
+      justify-content: center;
+      width: 1em;
+      height: 1em;
+      font-size: inherit;
+    }
+
+    button,
+    a[class*="btn"],
+    .btn-primary,
+    a[href^="{% url"],
+    input[type="submit"] {
+      display: inline-flex !important;
+      align-items: center !important;
+      position: relative;
+    }
+
+    button i,
+    a[class*="btn"] i,
+    .btn-primary i,
+    a[href^="{% url"] i,
+    input[type="submit"] i {
+      position: relative;
+      display: inline-flex !important;
+    }
+
+    /* Asegurar que se muestren correctamente los textos en botones */
+    button span,
+    a[class*="btn"] span,
+    .btn-primary span,
+    a[href^="{% url"] span {
+      position: relative;
+      display: inline-block;
+    }
+
+    /* Fondos para etiquetas */
+    .bg-green-100 {
+      background-color: #d1fae5 !important;
+    }
+    .text-green-800 {
+      color: #065f46 !important;
+    }
+    .bg-amber-100 {
+      background-color: #fef3c7 !important;
+    }
+    .text-amber-800 {
+      color: #92400e !important;
+    }
+    .bg-blue-100 {
+      background-color: #dbeafe !important;
+    }
+    .text-blue-800 {
+      color: #1e40af !important;
+    }
+    .bg-red-100 {
+      background-color: #fee2e2 !important;
+    }
+    .text-red-800 {
+      color: #991b1b !important;
+    }
+
+    /* Corrección para contenedores anidados */
+    .p-6 {
+      padding: 1.5rem;
+    }
+    .main-content > .p-6 > .max-w-4xl,
+    .main-content > .p-6 > .max-w-2xl {
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 0;
+      padding-left: 0;
+      padding-right: 0;
+    }
+    .main-content > .p-6 > div > .p-6 {
+      padding: 1.5rem !important;
+    }
+
+    /* Asegurar que los bordes redondeados se muestren correctamente */
+    .rounded-xl {
+      border-radius: 0.75rem !important;
+    }
+    .shadow-lg {
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+    }
   </style>
   <!-- Script para forzar la visibilidad de los iconos -->
   <script>
@@ -266,14 +457,22 @@
 
       <!-- Autenticación -->
       <div class="flex items-center gap-5">
-        <a href="{% url 'login' %}" class="flex items-center px-4 py-2 text-sm font-medium text-slate-700 hover:text-blue-600 transition-colors">
-          <i class="fas fa-sign-in-alt mr-2"></i>
-          Ingresar
-        </a>
-        <a href="{% url 'register' %}" class="btn-primary flex items-center px-4 py-2.5 text-sm font-medium">
-          <i class="fas fa-user-plus mr-2"></i>
-          Registro
-        </a>
+        {% if user.is_authenticated %}
+          <span class="text-sm text-slate-600">Hola, {{ user.username }}</span>
+          <a href="{% url 'login' %}?next={{ request.path }}&logout=true" class="flex items-center px-4 py-2 text-sm font-medium text-slate-700 hover:text-red-600 transition-colors">
+            <i class="fas fa-sign-out-alt mr-2"></i>
+            Cerrar Sesión
+          </a>
+        {% else %}
+          <a href="{% url 'login' %}" class="flex items-center px-4 py-2 text-sm font-medium text-slate-700 hover:text-blue-600 transition-colors">
+            <i class="fas fa-sign-in-alt mr-2"></i>
+            Ingresar
+          </a>
+          <a href="{% url 'register' %}" class="btn-primary flex items-center px-4 py-2.5 text-sm font-medium">
+            <i class="fas fa-user-plus mr-2"></i>
+            Registro
+          </a>
+        {% endif %}
       </div>
     </div>
   </header>
@@ -283,7 +482,7 @@
     <nav>
       <ul>
         <li>
-          <a href="{% url 'home' %}" class="menu-item">
+          <a href="{% url 'home' %}" class="menu-item {% if request.resolver_match.url_name == 'home' %}active{% endif %}">
             <div class="icon-container">
               <i class="fas fa-home"></i>
             </div>
@@ -291,7 +490,7 @@
           </a>
         </li>
         <li>
-          <a href="{% url 'tasks' %}" class="menu-item active">
+          <a href="{% url 'tasks' %}" class="menu-item {% if request.resolver_match.url_name == 'tasks' %}active{% endif %}">
             <div class="icon-container">
               <i class="fas fa-tasks"></i>
             </div>
@@ -299,7 +498,7 @@
           </a>
         </li>
         <li>
-          <a href="{% url 'create_task' %}" class="menu-item">
+          <a href="{% url 'create_task' %}" class="menu-item {% if request.resolver_match.url_name == 'create_task' %}active{% endif %}">
             <div class="icon-container">
               <i class="fas fa-plus-circle"></i>
             </div>
@@ -307,7 +506,31 @@
           </a>
         </li>
         <li>
-          <a href="{% url 'about' %}" class="menu-item">
+          <a href="{% url 'project_list' %}" class="menu-item {% if request.resolver_match.url_name == 'project_list' %}active{% endif %}">
+            <div class="icon-container">
+              <i class="fas fa-project-diagram"></i>
+            </div>
+            <span class="text-item ml-4">Proyectos</span>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'product_request_list' %}" class="menu-item {% if request.resolver_match.url_name == 'product_request_list' %}active{% endif %}">
+            <div class="icon-container">
+              <i class="fas fa-clipboard-list"></i>
+            </div>
+            <span class="text-item ml-4">Solicitudes</span>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'updates' %}" class="menu-item {% if request.resolver_match.url_name == 'updates' %}active{% endif %}">
+            <div class="icon-container">
+              <i class="fas fa-bullhorn"></i>
+            </div>
+            <span class="text-item ml-4">Actualizaciones</span>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'about' %}" class="menu-item {% if request.resolver_match.url_name == 'about' %}active{% endif %}">
             <div class="icon-container">
               <i class="fas fa-info-circle"></i>
             </div>
@@ -315,7 +538,7 @@
           </a>
         </li>
         <li>
-          <a href="{% url 'contact' %}" class="menu-item">
+          <a href="{% url 'contact' %}" class="menu-item {% if request.resolver_match.url_name == 'contact' %}active{% endif %}">
             <div class="icon-container">
               <i class="fas fa-envelope"></i>
             </div>
@@ -325,17 +548,19 @@
       </ul>
 
       <!-- Usuario -->
+      {% if user.is_authenticated %}
       <div class="user-container">
         <div class="user-profile">
           <div class="user-avatar">
             <i class="fas fa-user"></i>
           </div>
           <div class="ml-4 text-item">
-            <p class="text-sm font-medium text-gray-200">Usuario</p>
-            <p class="text-xs text-gray-400">usuario@ejemplo.com</p>
+            <p class="text-sm font-medium text-gray-200">{{ user.username }}</p>
+            <p class="text-xs text-gray-400">{{ user.email }}</p>
           </div>
         </div>
       </div>
+      {% endif %}
     </nav>
   </aside>
 

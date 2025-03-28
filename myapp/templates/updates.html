@@ -1,0 +1,82 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Actualizaciones del Sistema{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto mt-2">
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="p-6">
+            <!-- Encabezado con título -->
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-800 flex items-center">
+                    <i class="fas fa-bullhorn text-violet-500 mr-3"></i>
+                    <span>Actualizaciones del Sistema</span>
+                </h2>
+            </div>
+
+            <!-- Lista de actualizaciones -->
+            <div class="space-y-6">
+                <div class="bg-blue-50 rounded-lg p-6 border border-blue-100">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 bg-gradient-to-br from-blue-400 to-violet-500 text-white rounded-full p-3 mr-4">
+                            <i class="fas fa-code text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Mejoras en la Interfaz de Usuario</h3>
+                            <p class="text-gray-600 mb-3">Hemos actualizado el diseño de las páginas principales para ofrecer una mejor experiencia de usuario.</p>
+                            <div class="text-sm text-gray-500 flex items-center">
+                                <i class="fas fa-calendar-alt mr-1"></i>
+                                <span>28 de Marzo, 2025</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-blue-50 rounded-lg p-6 border border-blue-100">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 bg-gradient-to-br from-teal-400 to-blue-500 text-white rounded-full p-3 mr-4">
+                            <i class="fas fa-bug text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Corrección de Errores</h3>
+                            <p class="text-gray-600 mb-3">Se han corregido problemas con la visualización de iconos y mejorado la estabilidad general del sistema.</p>
+                            <div class="text-sm text-gray-500 flex items-center">
+                                <i class="fas fa-calendar-alt mr-1"></i>
+                                <span>27 de Marzo, 2025</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-blue-50 rounded-lg p-6 border border-blue-100">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 bg-gradient-to-br from-indigo-400 to-purple-500 text-white rounded-full p-3 mr-4">
+                            <i class="fas fa-plus-circle text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Nuevas Funcionalidades</h3>
+                            <p class="text-gray-600 mb-3">Se ha agregado soporte para gestionar proyectos y solicitudes de información desde un único panel de control.</p>
+                            <div class="text-sm text-gray-500 flex items-center">
+                                <i class="fas fa-calendar-alt mr-1"></i>
+                                <span>25 de Marzo, 2025</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Asegurar que los iconos Font Awesome se muestren correctamente */
+.fas {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 1em;
+    height: 1em;
+    font-size: inherit;
+}
+</style>
+{% endblock %}

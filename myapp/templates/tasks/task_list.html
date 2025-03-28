@@ -3,20 +3,105 @@
 {% block title %}Lista de Tareas{% endblock %}
 
 {% block content %}
-<h1>Lista de Tareas</h1>
+<div class="max-w-4xl mx-auto px-0">
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <!-- Cabecera con gradiente y patrón de puntos -->
+        <div class="relative bg-gradient-to-r from-indigo-700 to-violet-700 py-10 px-10 w-full">
+            <div class="absolute inset-0 opacity-25">
+                <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+                    <defs>
+                        <pattern id="pattern" width="40" height="40" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                            <rect width="100%" height="100%" fill="none"/>
+                            <circle cx="20" cy="20" r="1.5" fill="#fff" />
+                        </pattern>
+                    </defs>
+                    <rect width="100%" height="100%" fill="url(#pattern)" />
+                </svg>
+            </div>
+            <div class="relative flex justify-between items-center">
+                <div class="ml-2">
+                    <h2 class="text-3xl font-bold text-white flex items-center">
+                        <span class="flex items-center justify-center bg-white bg-opacity-25 rounded-full h-12 w-12 mr-4 shadow-inner">
+                            <i class="fas fa-tasks text-white text-lg"></i>
+                        </span>
+                        <span>Mis Tareas</span>
+                    </h2>
+                    <p class="mt-2 text-indigo-100 ml-1">
+                        Gestiona tus tareas y proyectos de forma eficiente
+                    </p>
+                </div>
+                <a href="{% url 'create_task' %}" class="inline-flex items-center py-3 px-6 bg-white text-indigo-700 rounded-lg shadow-lg hover:shadow-xl hover:bg-indigo-50 transition-all duration-300 transform hover:-translate-y-1 border border-indigo-100 font-medium">
+                    <i class="fas fa-plus-circle mr-2 text-indigo-600"></i>
+                    <span>Nueva Tarea</span>
+                </a>
+            </div>
+        </div>
 
-<ul>
-    {% for task in tasks %}
-        <li>
-            <a href="{% url 'task_detail' task.pk %}">{{ task.title }}</a>
-            {% if task.done %}
-                <span>(Completada)</span>
+        <div class="p-6">
+            <!-- Lista de tareas -->
+            {% if tasks %}
+            <div class="space-y-4">
+                {% for task in tasks %}
+                <div class="bg-white rounded-lg p-4 flex items-center justify-between hover:bg-indigo-50 transition-colors duration-300 border border-gray-200 shadow-sm hover:shadow">
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-gradient-to-br from-indigo-500 to-violet-500 rounded-full flex items-center justify-center text-white shadow mr-4">
+                            <i class="fas {% if task.done %}fa-check-circle{% else %}fa-circle-notch{% endif %} text-lg"></i>
+                        </div>
+                        <div>
+                            <a href="{% url 'task_detail' task.pk %}" class="text-lg font-medium text-gray-800 hover:text-indigo-600 transition-colors">
+                                {{ task.title }}
+                            </a>
+                            {% if task.description %}
+                            <p class="text-sm text-gray-500 mt-1">{{ task.description|truncatechars:60 }}</p>
+                            {% endif %}
+                            {% if task.project %}
+                            <div class="mt-1 flex items-center">
+                                <span class="text-xs bg-indigo-100 text-indigo-700 rounded-full px-2.5 py-0.5 flex items-center">
+                                    <i class="fas fa-project-diagram text-indigo-500 mr-1 text-xs"></i>
+                                    <span>{{ task.project.name }}</span>
+                                </span>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        {% if task.done %}
+                        <span class="px-3 py-1 inline-flex items-center rounded-full bg-gradient-to-r from-green-400 to-green-500 text-white text-xs font-medium shadow-sm">
+                            <i class="fas fa-check mr-1"></i>
+                            <span>Completada</span>
+                        </span>
+                        {% else %}
+                        <span class="px-3 py-1 inline-flex items-center rounded-full bg-gradient-to-r from-amber-400 to-amber-500 text-white text-xs font-medium shadow-sm">
+                            <i class="fas fa-clock mr-1"></i>
+                            <span>Pendiente</span>
+                        </span>
+                        {% endif %}
+                        <div class="flex space-x-2">
+                            <a href="{% url 'task_update' task.pk %}" class="p-2.5 text-indigo-500 hover:text-indigo-700 bg-indigo-50 rounded-full hover:bg-indigo-100 transition-colors shadow-sm">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="{% url 'task_delete' task.pk %}" class="p-2.5 text-red-500 hover:text-red-700 bg-red-50 rounded-full hover:bg-red-100 transition-colors shadow-sm">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="bg-indigo-50 border border-indigo-100 rounded-lg p-8 text-center">
+                <div class="inline-flex items-center justify-center w-24 h-24 bg-gradient-to-br from-indigo-400 to-indigo-600 rounded-full mb-6 text-white text-2xl shadow-lg">
+                    <i class="fas fa-clipboard-list"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-slate-700 mb-2">No hay tareas registradas</h3>
+                <p class="text-slate-500 mb-6">Comienza creando tu primera tarea</p>
+                <a href="{% url 'create_task' %}" class="inline-flex items-center py-3 px-8 bg-gradient-to-r from-indigo-600 to-violet-600 text-white rounded-lg shadow-lg hover:from-indigo-700 hover:to-violet-700 transition-all duration-300 transform hover:-translate-y-1">
+                    <i class="fas fa-plus-circle mr-2"></i>
+                    <span>Crear Nueva Tarea</span>
+                </a>
+            </div>
             {% endif %}
-        </li>
-    {% empty %}
-        <li>No hay tareas registradas.</li>
-    {% endfor %}
-</ul>
-
-<a href="{% url 'task_create' %}">Crear Nueva Tarea</a>
+        </div>
+    </div>
+</div>
 {% endblock %}
