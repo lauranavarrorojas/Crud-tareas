@@ -1,0 +1,24 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Detalle de Solicitud{% endblock %}
+
+{% block content %}
+<h1>{{ product_request.title }}</h1>
+
+<p><strong>Descripción:</strong> {{ product_request.description }}</p>
+<p><strong>Estado:</strong> {{ product_request.get_status_display }}</p>
+<p><strong>Usuario:</strong> {{ product_request.usuario }}</p>
+<p><strong>Proyecto:</strong> {{ product_request.project }}</p>
+<p><strong>Fecha de creación:</strong> {{ product_request.created_at }}</p>
+
+{% if product_request.image %}
+    <p><strong>Imagen:</strong></p>
+    <img src="{{ product_request.image.url }}" alt="Imagen del producto" width="300">
+{% endif %}
+
+<hr>
+<!-- Acciones de edición o borrado -->
+<a href="{% url 'product_request_update' product_request.pk %}">Editar</a> |
+<a href="{% url 'product_request_delete' product_request.pk %}">Eliminar</a> |
+<a href="{% url 'product_request_list' %}">Volver a la lista</a>
+{% endblock %}

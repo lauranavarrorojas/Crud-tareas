@@ -1,0 +1,16 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}{% if product_request %}Editar{% else %}Crear{% endif %} Solicitud{% endblock %}
+
+{% block content %}
+<h1>{% if product_request %}Editar{% else %}Crear{% endif %} Solicitud de Información</h1>
+
+<!-- Enctype para poder subir imágenes -->
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">{% if product_request %}Actualizar{% else %}Guardar{% endif %}</button>
+</form>
+
+<a href="{% url 'product_request_list' %}">Cancelar</a>
+{% endblock %}

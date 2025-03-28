@@ -1,0 +1,15 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}{% if project %}Editar Proyecto{% else %}Crear Proyecto{% endif %}{% endblock %}
+
+{% block content %}
+<h1>{% if project %}Editar Proyecto{% else %}Crear Proyecto{% endif %}</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">{% if project %}Actualizar{% else %}Crear{% endif %}</button>
+</form>
+
+<a href="{% url 'project_list' %}">Cancelar</a>
+{% endblock %}

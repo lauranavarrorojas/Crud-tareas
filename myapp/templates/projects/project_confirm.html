@@ -1,0 +1,15 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}Eliminar Proyecto{% endblock %}
+
+{% block content %}
+<h1>Eliminar Proyecto</h1>
+
+<p>¿Estás seguro de que deseas eliminar el proyecto: <strong>{{ project.name }}</strong>?</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Confirmar eliminación</button>
+    <a href="{% url 'project_detail' project.pk %}">Cancelar</a>
+</form>
+{% endblock %}

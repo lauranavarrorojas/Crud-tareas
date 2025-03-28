@@ -1,0 +1,21 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Lista de Solicitudes de Producto{% endblock %}
+
+{% block content %}
+<h1>Solicitudes de Información de Producto</h1>
+
+<!-- Iteramos sobre 'product_requests', según tu ListView -->
+<ul>
+    {% for req in product_requests %}
+        <li>
+            <a href="{% url 'product_request_detail' req.pk %}">{{ req.title }}</a>
+            <em>({{ req.status }})</em>
+        </li>
+    {% empty %}
+        <li>No hay solicitudes registradas.</li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'product_request_create' %}">Crear nueva solicitud</a>
+{% endblock %}

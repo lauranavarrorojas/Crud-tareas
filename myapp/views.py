@@ -5,11 +5,14 @@ from .forms import CreateNewTask,   CreateNewProject, ContactForm, LoginForm, Re
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
+from .models import ProductInfoRequest
 
 
 def index(request):
     title = 'django Course!!'
-    return render(request, 'index.html')
+    return render(request, 'index.html', {'title': title})
 
 def about(request):
     username = 'fazt'
@@ -22,41 +25,48 @@ def hello(request, username):
     return HttpResponse(f"<h2>Hello {username}</h2>")
 
 
-def projects_view(request):
+# def projects_view(request):
     # projects = List(Project.objects.values())
     projects = Project.objects.all()  # Accede a los datos del modelo
     return render(request, 'projects/projects.html', {
         'projects': projects
     }) # Enviar como JSON
 
-def tasks(request):
+# def tasks(request):
     # task = Task.objects.get(title=title)
     tasks = Task.objects.all()
     return render(request, 'tasks/tasks.html', {
     'tasks': tasks
 })
 
-def create_task(request):
-  if request.method == 'GET':
-       return render(request, 'tasks/create_task.html', {
-            'form': CreateNewTask()
-       })
-  else:
-
-      Task.objects.create(title=request.POST['title'],
-        description=request.POST['description'], project_id=2)
-      return redirect('tasks')
-
-def create_project(request):
+# def create_task(request):
     if request.method == 'GET':
-        return render(request, 'projects/create_project.html', {
-            'form': CreateNewProject
+        return render(request, 'tasks/create_task.html', {
+            'form': CreateNewTask()
         })
     else:
-        Project.objects.create(name=request.POST["name"])
-        return redirect('projects')
+        Task.objects.create(
+            title=request.POST['title'],
+            description=request.POST['description'],
+            project_id=2
+        )
+        return redirect('tasks')
 
-def project_detail(request, id):
+#def create_project(request):
+    if request.method == 'GET':
+        return render(request, 'projects/create_project.html', {
+            'form': CreateNewProject()  # <--- Se agrega ()
+        })
+    else:
+        form = CreateNewProject(request.POST)
+        if form.is_valid():
+            form.save()  # Creas el Project
+            return redirect('project_list')  # Ajusta al name correcto en tus urls
+        else:
+            return render(request, 'projects/create_project.html', {'form': form})
+
+
+# def project_detail(request, id):
     project = get_object_or_404(Project, id=id)
     tasks = Task.objects.filter(project_id=id)
     return render(request, 'projects/detail.html', {
@@ -65,7 +75,8 @@ def project_detail(request, id):
     })
 
 
-def task_list(request):
+
+# def task_list(request):
     tasks = Task.objects.all()
     return render(request, 'tasks.html', {'tasks': tasks})
 
@@ -97,7 +108,7 @@ def search(request):
         'results': results
     })
 
-def delete_task(request, task_id):
+# def delete_task(request, task_id):
     # Obtener la tarea o mostrar 404 si no existe
     task = get_object_or_404(Task, pk=task_id)
 
@@ -116,7 +127,7 @@ def mark_as_done(request, task_id):
     return redirect('tasks')
 
 def home(request):
-    return render(request, 'home.html')
+    return render(request, 'home/home.html')
 
 def updates(request):
     return render(request, 'updates.html')
@@ -151,3 +162,118 @@ def register_view(request):
 
 def base_view(request):
     return render(request, 'base.html')
+
+# ========================
+# Vistas para el modelo Project
+# ========================
+
+class ProjectListView(ListView):
+    model = Project
+    template_name = 'projects/project_list.html'  # Template para listar proyectos
+    context_object_name = 'projects'     # Variable que usaremos en el template
+
+
+class ProjectDetailView(DetailView):
+    model = Project
+    template_name = 'projects/project_detail.html'  # Template para ver el detalle del proyecto
+    context_object_name = 'project'
+
+
+class ProjectCreateView(CreateView):
+    model = Project
+    fields = ['name']                      # Campos que se mostrarán en el formulario
+    template_name = 'projects/project_form.html'
+    success_url = reverse_lazy('project_list')  # Redirige a la lista de proyectos tras crear uno
+
+
+class ProjectUpdateView(UpdateView):
+    model = Project
+    fields = ['name']
+    template_name = 'projects/project_form.html'
+    success_url = reverse_lazy('project_list')
+
+
+class ProjectDeleteView(DeleteView):
+    model = Project
+    template_name = 'projects/project_confirm_delete.html'  # Template para confirmar la eliminación
+    success_url = reverse_lazy('project_list')
+
+
+# ========================
+# Vistas para el modelo Task
+# ========================
+
+class TaskListView(ListView):
+    model = Task
+    template_name = 'tasks/task_list.html'
+    context_object_name = 'tasks'
+
+
+class TaskDetailView(DetailView):
+    model = Task
+    template_name = 'tasks/task_detail.html'
+    context_object_name = 'task'
+
+
+class TaskCreateView(CreateView):
+    model = Task
+    fields = ['title', 'description', 'project', 'done', 'usuario']
+    template_name = 'tasks/task_form.html'
+    success_url = reverse_lazy('task_list')
+
+
+class TaskUpdateView(UpdateView):
+    model = Task
+    fields = ['title', 'description', 'project', 'done', 'usuario']
+    template_name = 'tasks/task_form.html'
+    success_url = reverse_lazy('task_list')
+
+
+class TaskDeleteView(DeleteView):
+    model = Task
+    template_name = 'tasks/task_confirm_delete.html'
+    success_url = reverse_lazy('task_list')
+
+class ProductInfoRequestByProjectListView(ListView):
+    model = ProductInfoRequest
+    template_name = 'product_requests/product_request_list.html'
+    context_object_name = 'product_requests'
+
+    def get_queryset(self):
+        project_id = self.kwargs['pk']
+        return ProductInfoRequest.objects.filter(project_id=project_id)
+
+
+# ========================
+# Vistas para ProductInfoRequest
+# ========================
+
+class ProductInfoRequestListView(ListView):
+    model = ProductInfoRequest
+    template_name = 'product_requests/product_request_list.html'
+    context_object_name = 'product_requests'
+
+class ProductInfoRequestDetailView(DetailView):
+    model = ProductInfoRequest
+    template_name = 'product_requests/product_request_detail.html'
+    context_object_name = 'product_request'
+
+class ProductInfoRequestCreateView(CreateView):
+    model = ProductInfoRequest
+    fields = ['title', 'description', 'image', 'usuario', 'project', 'status']
+    template_name = 'product_requests/product_request_form.html'
+    success_url = reverse_lazy('product_request_list')
+
+class ProductInfoRequestUpdateView(UpdateView):
+    model = ProductInfoRequest
+    fields = ['title', 'description', 'image', 'usuario', 'project', 'status']
+    template_name = 'product_requests/product_request_form.html'
+    success_url = reverse_lazy('product_request_list')
+
+class ProductInfoRequestDeleteView(DeleteView):
+    model = ProductInfoRequest
+    template_name = 'product_requests/product_request_confirm_delete.html'
+    success_url = reverse_lazy('product_request_list')
+
+
+

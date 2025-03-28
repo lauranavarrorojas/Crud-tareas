@@ -1,0 +1,17 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}Detalle del Proyecto{% endblock %}
+
+{% block content %}
+<h1>{{ project.name }}</h1>
+
+<p>Aquí puedes agregar más detalles sobre el proyecto, descripción, fecha, etc.</p>
+
+<h2>Acciones</h2>
+<p>
+    <a href="{% url 'project_update' project.pk %}">Editar Proyecto</a> |
+    <a href="{% url 'project_delete' project.pk %}">Eliminar Proyecto</a>
+</p>
+
+<a href="{% url 'project_list' %}">Volver a la lista de proyectos</a>
+{% endblock %}

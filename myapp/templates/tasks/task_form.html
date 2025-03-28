@@ -1,0 +1,15 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}{% if task %}Editar Tarea{% else %}Crear Tarea{% endif %}{% endblock %}
+
+{% block content %}
+<h1>{% if task %}Editar Tarea{% else %}Crear Tarea{% endif %}</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">{% if task %}Actualizar{% else %}Crear{% endif %}</button>
+</form>
+
+<a href="{% url 'task_list' %}">Cancelar</a>
+{% endblock %}
