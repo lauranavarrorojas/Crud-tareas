@@ -1,16 +1,230 @@
-{% extends "layouts/base.html" %}
+{% extends 'layouts/base.html' %}
 
 {% block title %}{% if product_request %}Editar{% else %}Crear{% endif %} Solicitud{% endblock %}
 
 {% block content %}
-<h1>{% if product_request %}Editar{% else %}Crear{% endif %} Solicitud de Información</h1>
+<div class="max-w-2xl mx-auto mt-10 px-4 sm:px-6 lg:px-8">
+    <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+        <!-- Cabecera con imagen de fondo -->
+        <div class="relative bg-gradient-to-r from-violet-600 to-purple-600 py-10 px-8">
+            <div class="absolute inset-0 opacity-10">
+                <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+                    <defs>
+                        <pattern id="pattern" width="40" height="40" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                            <rect width="100%" height="100%" fill="none"/>
+                            <circle cx="20" cy="20" r="1.5" fill="#fff" />
+                        </pattern>
+                    </defs>
+                    <rect width="100%" height="100%" fill="url(#pattern)" />
+                </svg>
+            </div>
+            <div class="text-center relative">
+                <h2 class="text-3xl font-bold text-white tracking-tight">
+                    {% if product_request %}Editar Solicitud{% else %}Nueva Solicitud{% endif %}
+                </h2>
+                <p class="mt-2 text-blue-100">
+                    {% if product_request %}Actualiza los datos de tu solicitud{% else %}Agrega una nueva solicitud a tu lista{% endif %}
+                </p>
+            </div>
+        </div>
 
-<!-- Enctype para poder subir imágenes -->
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">{% if product_request %}Actualizar{% else %}Guardar{% endif %}</button>
-</form>
+        <div class="p-8">
+            <form method="POST" enctype="multipart/form-data" class="space-y-5">
+                {% csrf_token %}
 
-<a href="{% url 'product_request_list' %}">Cancelar</a>
+                <!-- Título -->
+                <div class="form-group">
+                    <label for="{{ form.title.id_for_label }}" class="flex items-center gap-1.5 text-sm font-medium text-gray-700 mb-2">
+                        <div class="form-icon">
+                            <i class="fas fa-heading text-violet-500 text-xs"></i>
+                        </div>
+                        <span>Título</span>
+                    </label>
+                    <div class="relative group">
+                        <div class="w-full">
+                            {{ form.title }}
+                        </div>
+                        {% if form.title.errors %}
+                            <div class="mt-1 text-red-500 text-sm">
+                                {{ form.title.errors }}
+                            </div>
+                        {% endif %}
+                        {% if form.title.help_text %}
+                            <div class="mt-1 text-xs text-gray-500">
+                                {{ form.title.help_text }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Descripción -->
+                <div class="form-group">
+                    <label for="{{ form.description.id_for_label }}" class="flex items-center gap-1.5 text-sm font-medium text-gray-700 mb-2">
+                        <div class="form-icon">
+                            <i class="fas fa-align-left text-violet-500 text-xs"></i>
+                        </div>
+                        <span>Descripción</span>
+                    </label>
+                    <div class="relative group">
+                        <div class="w-full">
+                            {{ form.description }}
+                        </div>
+                        {% if form.description.errors %}
+                            <div class="mt-1 text-red-500 text-sm">
+                                {{ form.description.errors }}
+                            </div>
+                        {% endif %}
+                        {% if form.description.help_text %}
+                            <div class="mt-1 text-xs text-gray-500">
+                                {{ form.description.help_text }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Imagen -->
+                <div class="form-group">
+                    <label for="{{ form.image.id_for_label }}" class="flex items-center gap-1.5 text-sm font-medium text-gray-700 mb-2">
+                        <div class="form-icon">
+                            <i class="fas fa-image text-violet-500 text-xs"></i>
+                        </div>
+                        <span>Imagen</span>
+                    </label>
+                    <div class="relative group">
+                        <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-violet-500 transition-colors">
+                            <div class="space-y-1 text-center">
+                                <i class="fas fa-cloud-upload-alt text-3xl text-gray-400"></i>
+                                <div class="flex text-sm text-gray-600">
+                                    <label for="{{ form.image.id_for_label }}" class="relative cursor-pointer rounded-md font-medium text-violet-600 hover:text-violet-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-violet-500 focus-within:ring-offset-2">
+                                        <span>Subir archivo</span>
+                                        {{ form.image }}
+                                    </label>
+                                    <p class="pl-1">o arrastrar y soltar</p>
+                                </div>
+                                <p class="text-xs text-gray-500">
+                                    PNG, JPG, GIF hasta 10MB
+                                </p>
+                            </div>
+                        </div>
+                        {% if form.image.errors %}
+                            <div class="mt-1 text-red-500 text-sm">
+                                {{ form.image.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Proyecto -->
+                <div class="form-group">
+                    <label for="{{ form.project.id_for_label }}" class="flex items-center gap-1.5 text-sm font-medium text-gray-700 mb-2">
+                        <div class="form-icon">
+                            <i class="fas fa-project-diagram text-violet-500 text-xs"></i>
+                        </div>
+                        <span>Proyecto</span>
+                    </label>
+                    <div class="relative group">
+                        <div class="w-full">
+                            {{ form.project }}
+                        </div>
+                        {% if form.project.errors %}
+                            <div class="mt-1 text-red-500 text-sm">
+                                {{ form.project.errors }}
+                            </div>
+                        {% endif %}
+                        {% if form.project.help_text %}
+                            <div class="mt-1 text-xs text-gray-500">
+                                {{ form.project.help_text }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Estado -->
+                <div class="form-group">
+                    <label for="{{ form.status.id_for_label }}" class="flex items-center gap-1.5 text-sm font-medium text-gray-700 mb-2">
+                        <div class="form-icon">
+                            <i class="fas fa-tasks text-violet-500 text-xs"></i>
+                        </div>
+                        <span>Estado</span>
+                    </label>
+                    <div class="relative group">
+                        <div class="w-full">
+                            {{ form.status }}
+                        </div>
+                        {% if form.status.errors %}
+                            <div class="mt-1 text-red-500 text-sm">
+                                {{ form.status.errors }}
+                            </div>
+                        {% endif %}
+                        {% if form.status.help_text %}
+                            <div class="mt-1 text-xs text-gray-500">
+                                {{ form.status.help_text }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Botones -->
+                <div class="form-group mt-6">
+                    <div class="flex items-center justify-end space-x-4">
+                        <a href="{% url 'product_request_list' %}" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500 transition-all duration-200">
+                            <i class="fas fa-times mr-2"></i>
+                            Cancelar
+                        </a>
+                        <button type="submit" class="inline-flex items-center px-6 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-violet-600 hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500 shadow-md hover:shadow-lg transition-all duration-200 transform hover:-translate-y-1">
+                            <i class="fas fa-save mr-2"></i>
+                            {% if product_request %}Actualizar{% else %}Guardar{% endif %}
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <style>
+        .form-icon {
+            width: 1.25rem;
+            height: 1.25rem;
+            min-width: 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.25rem;
+            background-color: rgba(139, 92, 246, 0.1);
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="email"],
+        textarea,
+        select {
+            display: block;
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            font-size: 0.875rem;
+            line-height: 1.25rem;
+            color: #111827;
+            background-color: #ffffff;
+            transition: all 0.2s;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus,
+        input[type="email"]:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            ring-width: 2px;
+            ring-color: rgba(139, 92, 246, 0.5);
+            border-color: rgba(139, 92, 246, 1);
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+    </style>
+</div>
 {% endblock %}
