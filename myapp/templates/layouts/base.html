@@ -55,8 +55,15 @@
     /* Asegurar que los textos dentro de botones y etiquetas sean visibles */
     [class*="bg-gradient-to-r"] *,
     [class*="bg-gradient-to-br"] *,
-    [class*="bg-white bg-opacity"] *,
-    
+    [class*="bg-white bg-opacity"] * {
+      color: white !important;
+    }
+
+    /* Excepción para botones con bg-white y text-violet */
+    .bg-white.text-violet-600,
+    .bg-white.text-violet-600 i {
+      color: #8b5cf6 !important; /* Valor de text-violet-600 */
+    }
 
     /* Asegurar colores para cabeceras */
     .from-teal-500.to-blue-600 h2,
