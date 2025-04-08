@@ -3,22 +3,72 @@
 {% block title %}Detalle de Solicitud{% endblock %}
 
 {% block content %}
-<h1>{{ product_request.title }}</h1>
+<div class="max-w-4xl mx-auto px-0">
+  <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+    <!-- Cabecera con gradiente y patrón de puntos -->
+    <div class="relative bg-gradient-to-r from-indigo-700 to-violet-700 py-10 px-10 w-full">
+      <div class="absolute inset-0 opacity-25">
+        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+          <defs>
+            <pattern id="pattern" width="40" height="40" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+              <rect width="100%" height="100%" fill="none"/>
+              <circle cx="20" cy="20" r="1.5" fill="#fff" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#pattern)" />
+        </svg>
+      </div>
+      <div class="relative flex justify-between items-center">
+        <div class="ml-2">
+          <h1 class="text-3xl font-bold text-white flex items-center">
+            <span class="flex items-center justify-center bg-white bg-opacity-25 rounded-full h-12 w-12 mr-4 shadow-inner">
+              <i class="fas fa-file-alt text-white text-lg"></i>
+            </span>
+            <span>Detalle de Solicitud</span>
+          </h1>
+          <p class="mt-2 text-indigo-100 ml-1">
+            Información y gestión de la solicitud
+          </p>
+        </div>
+      </div>
+    </div>
 
-<p><strong>Descripción:</strong> {{ product_request.description }}</p>
-<p><strong>Estado:</strong> {{ product_request.get_status_display }}</p>
-<p><strong>Usuario:</strong> {{ product_request.usuario }}</p>
-<p><strong>Proyecto:</strong> {{ product_request.project }}</p>
-<p><strong>Fecha de creación:</strong> {{ product_request.created_at }}</p>
+    <div class="p-6">
+      <!-- Información de la Solicitud -->
+      <div class="mb-6">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-2">Información de la Solicitud</h2>
+        <p class="text-gray-700"><strong>Título:</strong> {{ product_request.title }}</p>
+        <p class="text-gray-700"><strong>Descripción:</strong> {{ product_request.description }}</p>
+        <p class="text-gray-700"><strong>Estado:</strong> {{ product_request.get_status_display }}</p>
+        <p class="text-gray-700"><strong>Usuario:</strong> {{ product_request.usuario }}</p>
+        <p class="text-gray-700"><strong>Proyecto:</strong> {{ product_request.project }}</p>
+        <p class="text-gray-700"><strong>Fecha de creación:</strong> {{ product_request.created_at }}</p>
+        {% if product_request.image %}
+        <div class="mt-4">
+          <p class="text-gray-700"><strong>Imagen:</strong></p>
+          <img src="{{ product_request.image.url }}" alt="Imagen de la solicitud" class="w-64">
+        </div>
+        {% endif %}
+      </div>
 
-{% if product_request.image %}
-    <p><strong>Imagen:</strong></p>
-    <img src="{{ product_request.image.url }}" alt="Imagen del producto" width="300">
-{% endif %}
+      <!-- Sección de Acciones -->
+      <div class="mb-6">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-2">Acciones</h2>
+        <div class="flex space-x-4">
+          <a href="{% url 'product_request_update' product_request.pk %}" class="px-4 py-2 bg-gradient-to-r from-indigo-700 to-violet-700 text-white rounded hover:from-indigo-800 hover:to-violet-800 transition-colors">
+            Editar Solicitud
+          </a>
+          <a href="{% url 'product_request_delete' product_request.pk %}" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors">
+            Eliminar Solicitud
+          </a>
+        </div>
+      </div>
 
-<hr>
-<!-- Acciones de edición o borrado -->
-<a href="{% url 'product_request_update' product_request.pk %}">Editar</a> |
-<a href="{% url 'product_request_delete' product_request.pk %}">Eliminar</a> |
-<a href="{% url 'product_request_list' %}">Volver a la lista</a>
+      <!-- Enlace para volver a la lista -->
+      <a href="{% url 'product_request_list' %}" class="inline-block mt-4 px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 transition-colors">
+        Volver a la lista de Solicitudes
+      </a>
+    </div>
+  </div>
+</div>
 {% endblock %}

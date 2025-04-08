@@ -1,15 +1,30 @@
-{% extends "layouts/base.html" %}
+{% extends 'layouts/base.html' %}
 
-{% block title %}Eliminar Solicitud{% endblock %}
+{% block title %}Eliminar Solicitudes{% endblock %}
 
 {% block content %}
-<h1>Eliminar Solicitud</h1>
-
-<p>¿Estás seguro de que deseas eliminar <strong>{{ product_request.title }}</strong>?</p>
-
-<form method="post">
+<div class="max-w-md mx-auto mt-10 p-6 bg-white shadow rounded">
+  <h1 class="text-2xl font-bold mb-4">Eliminar Solicitudes</h1>
+  <p class="mb-4">
+    ¿Estás seguro de que deseas eliminar las solicitudes? 
+    <strong class="font-semibold">{{ project.name }}</strong>?
+  </p>
+  <form method="post" class="flex items-center space-x-4">
     {% csrf_token %}
-    <button type="submit">Eliminar</button>
-    <a href="{% url 'product_request_detail' product_request.pk %}">Cancelar</a>
-</form>
+    <button 
+      type="submit" 
+      class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
+    >
+      Confirmar eliminación
+    </button>
+
+    <!-- AQUÍ es donde modificas el botón "Cancelar" -->
+    <a 
+      href="{% url 'product_request_list' %}" 
+      class="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-400"
+    >
+      Cancelar
+    </a>
+  </form>
+</div>
 {% endblock %}
